@@ -17,4 +17,4 @@ steps:
       environment:
         PARAM_TO: <<parameters.to>>
       name: Hello JS Greeting
-      command: node <<include(scripts/notify.js)>>
+      command: <<include(scripts/notify.js)>>
