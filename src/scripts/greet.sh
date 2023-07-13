@@ -5,4 +5,4 @@ TO=$(circleci env subst "${PARAM_TO}")
 # If for any reason the TO variable is not set, default to "World"
 echo "Hello ${TO:-World}!"
 
-python "<<include(scripts/greet.py)>>"
+python "src/scripts/greet.py"
