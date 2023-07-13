@@ -5,4 +5,11 @@ TO=$(circleci env subst "${PARAM_TO}")
 # If for any reason the TO variable is not set, default to "World"
 echo "Hello ${TO:-World}!"
 
-python "src/scripts/notify.py"
+echo "Running the Python script..."
+python - <<EOF
+# Your Python script here
+import sys
+
+print("Hello, CircleCI!")
+sys.exit(0)
+EOF
