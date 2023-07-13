@@ -17,7 +17,7 @@ import urllib.request
 
 token = os.environ.get('CIRCLE_TOKEN', '')
 project_slug = os.environ.get('PROJECT_SLUG', '')
-notify_threshold = os.environ.get('NOTIFY_THRESHOLD', 1)
+notify_threshold = int(os.environ.get('NOTIFY_THRESHOLD', 1))
 
 # Create a GET request
 url = "https://circleci.com/api/v2/insights/{}/flaky-tests".format(project_slug)
