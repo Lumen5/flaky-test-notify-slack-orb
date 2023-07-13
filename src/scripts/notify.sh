@@ -115,7 +115,8 @@ blocks.append(
 )
 
 with open("/tmp/flaky_tests_slack_template.json", "w") as outfile:
-    json.dump({"blocks": blocks}, outfile)
+    pretty = json.dumps({"blocks": blocks}, indent=4)
+    json.dump(pretty, outfile)
 EOF
 
 if [ ! -s "/tmp/flaky_tests_slack_template.json" ]; then
