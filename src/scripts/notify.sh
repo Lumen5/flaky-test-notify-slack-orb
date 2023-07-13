@@ -54,7 +54,7 @@ blocks = [
         "text": {
             "type": "plain_text",
             "text": f":warning: Flaky tests detected in the *{repo_name}* repo.",
-            "emoji": true
+            "emoji": True
         }
     },
 ]
