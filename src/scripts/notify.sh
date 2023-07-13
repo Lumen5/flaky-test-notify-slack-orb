@@ -12,12 +12,20 @@ echo "Running the Python script..."
 CIRCLE_TOKEN=$CIRCLE_TOKEN PROJECT_SLUG=$PROJECT_SLUG python - <<EOF
 import json
 import os
+import re
 import sys
 import urllib.request
 
 token = os.environ.get('CIRCLE_TOKEN', '')
 project_slug = os.environ.get('PROJECT_SLUG', '')
 notify_threshold = int(os.environ.get('NOTIFY_THRESHOLD', 1))
+
+pattern = r"/([^/]+)$"
+match = re.search(pattern, project_slug)
+if match:
+    repo_name = match.group(1)
+else:
+    repo_name = os.environ.get('CIRCLE_PROJECT_REPONAME', 'unknown')
 
 # Create a GET request
 url = "https://circleci.com/api/v2/insights/{}/flaky-tests".format(project_slug)
@@ -45,7 +53,7 @@ blocks = [
         "type": "section",
         "text": {
             "type": "mrkdwn",
-            "text": f":warning: Flaky tests detected in *{os.environ.get('CIRCLE_PROJECT_REPONAME', 'unknown')}* repo."
+            "text": f":warning: Flaky tests detected in *{repo_name}* repo."
         }
     }
 ]
@@ -72,10 +80,6 @@ for test in filtered_tests:
                 {
                     "type": "mrkdwn",
                     "text": f"*Job:* {test['job_name']}"
-                },
-                {
-                    "type": "mrkdwn",
-                    "text": f"*Classname:* {test['classname']}"
                 },
                 {
                     "type": "mrkdwn",
