@@ -1,9 +1,4 @@
 #!/bin/bash
-# This example uses envsubst to support variable substitution in the string parameter type.
-# https://circleci.com/docs/orbs-best-practices/#accepting-parameters-as-strings-or-environment-variables
-#TO=$(circleci env subst "${PARAM_TO}")
-# If for any reason the TO variable is not set, default to "World"
-#echo "Hello ${TO:-World}!"
 
 # If $PROJECT_SLUG is not specified, extract from current project's $CIRCLE_BUILD_URL
 if [ "${PROJECT_SLUG}" = '' ]; then
@@ -11,7 +6,7 @@ if [ "${PROJECT_SLUG}" = '' ]; then
 fi
 echo "Project slug: ${PROJECT_SLUG}"
 
-CIRCLE_TOKEN=$(circleci env subst "${PARAM_CIRCLE_TOKEN}")
+CIRCLE_TOKEN=${!PARAM_CIRCLE_TOKEN}
 
 echo "Running the Python script..."
 CIRCLE_TOKEN=$CIRCLE_TOKEN PROJECT_SLUG=$PROJECT_SLUG python - <<EOF
