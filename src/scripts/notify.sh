@@ -53,30 +53,28 @@ blocks = [
         "type": "section",
         "text": {
             "type": "mrkdwn",
-            "text": f":warning: Flaky tests detected in *{repo_name}* repo."
+            "text": f":warning: Flaky tests detected in the *{repo_name}* repo."
         }
-    }
+    },
+    {
+        "type": "divider"
+    },
 ]
 
 for test in filtered_tests:
     blocks.append(
         {
-            "type": "divider"
-        },
-    )
-    blocks.append(
-        {
             "type": "section",
             "text": {
                 "type": "mrkdwn",
-                "text": f"*{test['test_name']}*"
-            }
+                "text": f"*<https://app.circleci.com/pipelines/{project_slug}/{test['pipeline_number']}/workflows/{test['workflow_id']}/jobs/{test['job_number']}/tests|{test['test_name']}>*"
+            },
         },
     )
     blocks.append(
         {
-            "type": "section",
-            "fields": [
+            "type": "context",
+            "elements": [
                 {
                     "type": "mrkdwn",
                     "text": f"*Job:* {test['job_name']}"
@@ -86,14 +84,6 @@ for test in filtered_tests:
                     "text": f"*Times flaked:* {test['times_flaked']}"
                 }
             ],
-            "accessory": {
-                "type": "button",
-                "text": {
-                    "type": "plain_text",
-                    "text": "See last run",
-                },
-                "url": f"https://app.circleci.com/pipelines/{project_slug}/{test['pipeline_number']}/workflows/{test['workflow_id']}/jobs/{test['job_number']}/tests"
-            }
         }
     )
 
