@@ -118,9 +118,8 @@ with open("/tmp/flaky_tests_slack_template.json", "w") as outfile:
     json.dump({"blocks": blocks}, outfile)
 EOF
 
-if [ ! -s "tmp/flaky_tests_slack_template.json" ]; then
+if [ ! -s "/tmp/flaky_tests_slack_template.json" ]; then
     echo "Nothing to send to slack."
-    exit 1
     circleci-agent step halt
 fi
 
