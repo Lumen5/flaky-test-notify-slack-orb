@@ -13,3 +13,8 @@ steps:
         PARAM_TO: <<parameters.to>>
       name: Hello Greeting
       command: <<include(scripts/greet.sh)>>
+  - run:
+      environment:
+        PARAM_TO: <<parameters.to>>
+      name: Hello JS Greeting
+      command: node <<include(scripts/notify.js)>>
