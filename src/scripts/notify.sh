@@ -120,6 +120,7 @@ EOF
 
 if [ ! -s "tmp/flaky_tests_slack_template.json" ]; then
     echo "Nothing to send to slack."
+    exit 1
     circleci-agent step halt
 fi
 
