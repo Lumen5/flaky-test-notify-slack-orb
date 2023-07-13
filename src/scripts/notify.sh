@@ -50,10 +50,11 @@ if len(filtered_tests) == 0:
 
 blocks = [
     {
-        "type": "section",
+        "type": "header",
         "text": {
-            "type": "mrkdwn",
-            "text": f":warning: Flaky tests detected in the *{repo_name}* repo."
+            "type": "plain_text",
+            "text": f":warning: Flaky tests detected in the *{repo_name}* repo.",
+            "emoji": true
         }
     },
 ]
