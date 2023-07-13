@@ -34,12 +34,12 @@ parameters:
       If a test has flaked at least this many times, the channel will be notified.
 steps:
   - run:
-    name: Collecting Flaky Tests
-    environment:
-      PARAM_CIRCLE_TOKEN: <<parameters.circle_token>>
-      PROJECT_SLUG: <<parameters.project_slug>>
-      NOTIFY_THRESHOLD: <<parameters.notify_threshold>>
-    command: <<include(scripts/notify.sh)>>
+      name: Collecting Flaky Tests
+      environment:
+        PARAM_CIRCLE_TOKEN: <<parameters.circle_token>>
+        PROJECT_SLUG: <<parameters.project_slug>>
+        NOTIFY_THRESHOLD: <<parameters.notify_threshold>>
+      command: <<include(scripts/notify.sh)>>
   - slack/notify:
-    template: SLACK_TEMPLATE_FOR_FLAKY_TESTS
-    channel: <<parameters.channel>>
+      template: SLACK_TEMPLATE_FOR_FLAKY_TESTS
+      channel: <<parameters.channel>>
