@@ -30,8 +30,7 @@ jobs:
       # Run your orb's commands to validate them.
       - flaky-tests-notify-slack/greet
   command-test-2:
-    docker:
-      - image: cimg/base:current
+    executor: flaky-tests-notify-slack/default
     steps:
       # Run your orb's commands to validate them.
       - flaky-tests-notify-slack/greet
