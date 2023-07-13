@@ -41,5 +41,5 @@ steps:
         NOTIFY_THRESHOLD: <<parameters.notify_threshold>>
       command: <<include(scripts/notify.sh)>>
   - slack/notify:
-      template: SLACK_TEMPLATE_FOR_FLAKY_TESTS
+      template: FLAKY_TESTS_SLACK_TEMPLATE
       channel: <<parameters.channel>>
