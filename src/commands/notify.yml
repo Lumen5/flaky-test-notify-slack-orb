@@ -1,0 +1,45 @@
+description: >
+  This command checks for any flaky tests in the project and notifies the slack channel if
+  any are found and have flaked more than the desired threshold.
+# TODO more here
+parameters:
+  channel:
+    type: string
+    default: $SLACK_DEFAULT_CHANNEL
+    description: >
+      Select which channel in which to post to.
+      Channel name or ID will work.
+      You may include a comma separated list of channels if you wish to post to multiple channels at once.
+      You may also set the "SLACK_DEFAULT_CHANNEL" environment variable.
+  circle_token:
+    type: env_var_name
+    default: CIRCLE_TOKEN
+    description: >
+      CircleCI token for fetching flaky tests via API.
+      If not specified, CIRCLE_TOKEN environment variable will be used.
+      Please refer to this document how to generate it.
+      https://circleci.com/docs/managing-api-tokens (requires a v2 token)
+  project_slug:
+    type: string
+    default: ''
+    description: >
+      Example: gh/CircleCI-Public/api-preview-docs.
+      Project slug in the form vcs-slug/org-name/repo-name.
+      If not specified, current project's slug will be used.
+  notify_threshold:
+    type: integer
+    default: 10
+    description: >
+      Threshold for notifying slack channel.
+      If a test has flaked at least this many times, the channel will be notified.
+steps:
+  - run:
+    name: Collecting Flaky Tests
+    environment:
+      PARAM_CIRCLE_TOKEN: <<parameters.circle_token>>
+      PROJECT_SLUG: <<parameters.project_slug>>
+      NOTIFY_THRESHOLD: <<parameters.notify_threshold>>
+    command: <<include(scripts/notify.sh)>>
+  - slack/notify:
+    template: SLACK_TEMPLATE_FOR_FLAKY_TESTS
+    channel: <<parameters.channel>>
