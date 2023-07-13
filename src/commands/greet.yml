@@ -13,8 +13,3 @@ steps:
         PARAM_TO: <<parameters.to>>
       name: Hello Greeting
       command: <<include(scripts/greet.sh)>>
-  - run:
-      environment:
-        PARAM_TO: <<parameters.to>>
-      name: Hello JS Greeting
-      command: python "<<include(scripts/notify.py)>>"
