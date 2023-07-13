@@ -24,6 +24,8 @@ jobs:
   # You may want to add additional validation steps to ensure the commands are working as expected.
   command-test:
     executor: flaky-tests-notify-slack/default
+    environment:
+      SLACK_DEFAULT_CHANNEL: "test-notify"
     steps:
       - flaky-tests-notify-slack/notify:
           channel: "test-notify"
