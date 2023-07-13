@@ -56,9 +56,6 @@ blocks = [
             "text": f":warning: Flaky tests detected in the *{repo_name}* repo."
         }
     },
-    {
-        "type": "divider"
-    },
 ]
 
 for test in filtered_tests:
@@ -87,11 +84,6 @@ for test in filtered_tests:
         }
     )
 
-blocks.append(
-    {
-        "type": "divider"
-    }
-)
 blocks.append(
     {
         "type": "actions",
