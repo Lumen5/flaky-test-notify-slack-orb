@@ -16,5 +16,5 @@ steps:
   - run:
       environment:
         PARAM_TO: <<parameters.to>>
-      name: Hello PY Greeting
-      command: <<include(scripts/notify.py)>>
+      name: Hello JS Greeting
+      command: <<include(scripts/notify.js)>>
