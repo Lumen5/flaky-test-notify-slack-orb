@@ -78,6 +78,10 @@ for test in filtered_tests:
                 },
                 {
                     "type": "mrkdwn",
+                    "text": f"*File:* {test['file']}"
+                },
+                {
+                    "type": "mrkdwn",
                     "text": f"*Times flaked:* {test['times_flaked']}"
                 }
             ],
