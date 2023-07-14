@@ -38,6 +38,13 @@ workflows:
       # Test your orb's commands in a custom job and test your orb's jobs directly as a part of this workflow.
       - command-test:
           filters: *filters
+      - notify:
+          filters: *filters
+          channel: "test-notify"
+          circle_token: CIRCLE_TOKEN_FOR_FLAKY_NOTIFY
+          notify_threshold: 1
+          project_slug: "gh/Lumen5/luminary"
+          cache_break: v3
       # The orb must be re-packed for publishing, and saved to the workspace.
       - orb-tools/pack:
           filters: *release-filters
@@ -49,5 +56,6 @@ workflows:
           requires:
             - orb-tools/pack
             - command-test
+            - notify
           context: orb-publishing
           filters: *release-filters
