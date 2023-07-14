@@ -46,6 +46,7 @@ tests_above_threshold = [test for test in data["flaky_tests"] if test["times_fla
 notify_record_path = "/tmp/notify_record.json"
 notified_tests = {}
 if os.path.exists(notify_record_path):
+    print("Found existing notify record")
     with open(notify_record_path, "r") as f:
         notified_tests = json.load(f)
 
@@ -61,8 +62,6 @@ for test in tests_above_threshold:
     notified_tests[test["test_name"]] = True
 with open(notify_record_path, "w") as f:
     json.dump(notified_tests, f, ensure_ascii=False, indent=4)
-
-print(notified_tests)
 
 blocks = [
     {
