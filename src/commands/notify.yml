@@ -13,7 +13,7 @@ description: >
 parameters:
   cache_break:
     type: string
-    default: v0a
+    default: v0
     description: >
       TODO
   channel:
