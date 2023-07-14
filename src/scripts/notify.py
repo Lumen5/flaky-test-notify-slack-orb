@@ -40,19 +40,36 @@ except Exception as e:
 print("Request successful")
 data = json.loads(res)
 
-filtered_tests = [test for test in data["flaky_tests"] if test["times_flaked"] >= notify_threshold]
+tests_above_threshold = [test for test in data["flaky_tests"] if test["times_flaked"] >= notify_threshold]
+
+# filter out any tests that we've already notified about
+notify_record_path = "/tmp/notify_record.json"
+notified_tests = {}
+if os.path.exists(notify_record_path):
+    with open(notify_record_path, "r") as f:
+        notified_tests = json.load(f)
+
+filtered_tests = [test for test in tests_above_threshold if test["test_name"] not in notified_tests]
 
 if len(filtered_tests) == 0:
     print("No flaky tests found")
     subprocess.run(["circleci-agent", "step", "halt"])
     sys.exit(0)
 
+# record the tests above threshold, so we don't notify about them again
+for test in tests_above_threshold:
+    notified_tests[test["test_name"]] = True
+with open(notify_record_path, "w") as f:
+    json.dump(notified_tests, f, ensure_ascii=False, indent=4)
+
+print(notified_tests)
+
 blocks = [
     {
         "type": "header",
         "text": {
             "type": "plain_text",
-            "text": f":warning: Flaky tests detected in the {repo_name} repo.",
+            "text": f":warning: Flaky tests detected in the {repo_name} repo",
             "emoji": True
         }
     },

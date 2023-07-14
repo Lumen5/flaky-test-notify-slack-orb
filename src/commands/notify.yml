@@ -3,6 +3,11 @@ description: >
   any are found and have flaked more than the desired threshold.
 # TODO more here
 parameters:
+  cache_break:
+    type: string
+    default: v0a
+    description: >
+      TODO
   channel:
     type: string
     default: $SLACK_DEFAULT_CHANNEL
@@ -33,6 +38,9 @@ parameters:
       Threshold for notifying slack channel.
       If a test has flaked at least this many times, the channel will be notified.
 steps:
+  - restore_cache:
+      keys:
+          - notify-test-cache-<< parameters.cache_break >>
   - run:
       name: Collecting Flaky Tests
       environment:
@@ -44,3 +52,7 @@ steps:
   - slack/notify:
       template: FLAKY_TESTS_SLACK_TEMPLATE
       channel: <<parameters.channel>>
+  - save_cache:
+      key: notify-test-cache-<< parameters.cache_break >>
+      paths:
+        - /tmp/notify_record.json
