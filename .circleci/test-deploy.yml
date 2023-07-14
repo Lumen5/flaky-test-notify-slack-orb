@@ -38,7 +38,7 @@ workflows:
       # Test your orb's commands in a custom job and test your orb's jobs directly as a part of this workflow.
       - command-test:
           filters: *filters
-      - notify:
+      - flaky-tests-notify-slack/notify:
           filters: *filters
           channel: "test-notify"
           circle_token: CIRCLE_TOKEN_FOR_FLAKY_NOTIFY
@@ -56,6 +56,6 @@ workflows:
           requires:
             - orb-tools/pack
             - command-test
-            - notify
+            - flaky-tests-notify-slack/notify
           context: orb-publishing
           filters: *release-filters
