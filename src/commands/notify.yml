@@ -39,7 +39,8 @@ steps:
         PARAM_CIRCLE_TOKEN: <<parameters.circle_token>>
         PROJECT_SLUG: <<parameters.project_slug>>
         NOTIFY_THRESHOLD: <<parameters.notify_threshold>>
-      command: <<include(scripts/notify.sh)>>
+      shell: '/usr/bin/env python'
+      command: <<include(scripts/notify.py)>>
   - slack/notify:
       template: FLAKY_TESTS_SLACK_TEMPLATE
       channel: <<parameters.channel>>

@@ -53,7 +53,7 @@ blocks = [
         "type": "header",
         "text": {
             "type": "plain_text",
-            "text": f":warning: Flaky tests detected in the *{repo_name}* repo.",
+            "text": f":warning: Flaky tests detected in the {repo_name} repo.",
             "emoji": True
         }
     },
