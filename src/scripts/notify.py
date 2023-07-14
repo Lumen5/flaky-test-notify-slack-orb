@@ -54,8 +54,9 @@ filtered_tests = [test for test in tests_above_threshold if test["test_name"] no
 
 if len(filtered_tests) == 0:
     print(f"No flaky tests to notify about.")
-    if len(tests_above_threshold) > 0:
-        print(f"However, there are {len(tests_above_threshold)} flaky tests that are below the threshold ({notify_threshold}).")
+    num_below_threshold = len(data["flaky_tests"]) - len(tests_above_threshold)
+    if num_below_threshold > 0:
+        print(f"However, there are {num_below_threshold} flaky tests that are below the threshold ({notify_threshold}).")
     subprocess.run(["circleci-agent", "step", "halt"])
     sys.exit(0)
 
