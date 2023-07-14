@@ -28,7 +28,7 @@ jobs:
       - flaky-tests-notify-slack/notify:
           channel: "test-notify"
           circle_token: CIRCLE_TOKEN_FOR_FLAKY_NOTIFY
-          notify_threshold: 1
+          notify_threshold: 2
           project_slug: "gh/Lumen5/luminary"
 workflows:
   test-deploy:
