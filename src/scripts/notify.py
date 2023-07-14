@@ -66,6 +66,8 @@ for test in tests_above_threshold:
 with open(notify_record_path, "w") as f:
     json.dump(notified_tests, f, ensure_ascii=False, indent=4)
 
+print(f"Found {len(filtered_tests)} flaky tests at or above the threshold ({notify_threshold}).")
+
 blocks = [
     {
         "type": "header",
