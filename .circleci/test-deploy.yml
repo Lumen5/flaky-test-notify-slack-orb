@@ -30,7 +30,7 @@ jobs:
           circle_token: CIRCLE_TOKEN_FOR_FLAKY_NOTIFY
           notify_threshold: 1
           project_slug: "gh/Lumen5/luminary"
-          cache_break: v1
+          cache_break: v2
 workflows:
   test-deploy:
     jobs:
