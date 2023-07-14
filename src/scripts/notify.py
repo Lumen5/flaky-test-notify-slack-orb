@@ -53,7 +53,9 @@ if os.path.exists(notify_record_path):
 filtered_tests = [test for test in tests_above_threshold if test["test_name"] not in notified_tests]
 
 if len(filtered_tests) == 0:
-    print("No flaky tests found")
+    print(f"No flaky tests to notify about.")
+    if len(tests_above_threshold) > 0:
+        print(f"However, there are {len(tests_above_threshold)} flaky tests that are below the threshold ({notify_threshold}).")
     subprocess.run(["circleci-agent", "step", "halt"])
     sys.exit(0)
 
