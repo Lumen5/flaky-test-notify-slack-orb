@@ -1,0 +1,67 @@
+description: >
+  This command checks for flaky tests in the project and notifies a slack channel if
+  any are found and have flaked more than the desired threshold. This command uses the circleci cache
+  to prevent notifying slack more than once for the same flaky test.
+
+  This command uses the following environment variables:
+  - CIRCLE_TOKEN: CircleCI token for fetching flaky tests via API. (can also specify this via a parameter)
+  - SLACK_ACCESS_TOKEN: Slack token for posting messages to Slack. (see https://circleci.com/developer/orbs/orb/circleci/slack)
+  - SLACK_DEFAULT_CHANNEL: Default channel to post to. (can also specify this via a parameter)
+
+parameters:
+  cache_break:
+    type: string
+    default: v0
+    description: >
+      A manual way to break the cache so notifications are set again. This could be helpful if you want to send
+      flake notifications, for example, once per day by dynamically setting this to the current date e.g. "2020-01-01".
+  channel:
+    type: string
+    default: $SLACK_DEFAULT_CHANNEL
+    description: >
+      Select which channel in which to post to.
+      Channel name or ID will work.
+      You may include a comma separated list of channels if you wish to post to multiple channels at once.
+      You may also set the "SLACK_DEFAULT_CHANNEL" environment variable.
+      Refer to https://circleci.com/developer/orbs/orb/circleci/slack for more information.
+  circle_token:
+    type: env_var_name
+    default: CIRCLE_TOKEN
+    description: >
+      The name of the env variable containing the CircleCI token for fetching flaky tests via API.
+      If not specified, CIRCLE_TOKEN environment variable will be used.
+      Please refer to this document how to generate it.
+      https://circleci.com/docs/managing-api-tokens (requires a v2 token)
+  project_slug:
+    type: string
+    default: ''
+    description: >
+      Example: gh/CircleCI-Public/api-preview-docs.
+      Project slug in the form vcs-slug/org-name/repo-name.
+      If not specified, current project's slug will be used.
+  notify_threshold:
+    type: integer
+    default: 5
+    description: >
+      Threshold for notifying slack channel.
+      If a test has flaked at least this many times, the channel will be notified.
+
+steps:
+  - restore_cache:
+      keys:
+        - notify-test-cache-<< parameters.cache_break >>
+  - run:
+      name: Collecting Flaky Tests
+      environment:
+        PARAM_CIRCLE_TOKEN: <<parameters.circle_token>>
+        PROJECT_SLUG: <<parameters.project_slug>>
+        NOTIFY_THRESHOLD: <<parameters.notify_threshold>>
+      shell: '/usr/bin/env python'
+      command: <<include(scripts/notify.py)>>
+  - slack/notify:
+      template: FLAKY_TESTS_SLACK_TEMPLATE
+      channel: <<parameters.channel>>
+  - save_cache:
+      key: notify-test-cache-<< parameters.cache_break >>-{{ epoch }}
+      paths:
+        - /tmp/notify_record.json
