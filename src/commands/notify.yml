@@ -36,9 +36,9 @@ steps:
   - run:
       name: Collecting Flaky Tests
       environment:
-        PARAM_CIRCLE_TOKEN: <<parameters.circle_token>>
-        PROJECT_SLUG: <<parameters.project_slug>>
-        NOTIFY_THRESHOLD: <<parameters.notify_threshold>>
+          PARAM_CIRCLE_TOKEN: <<parameters.circle_token>>
+          PROJECT_SLUG: <<parameters.project_slug>>
+          NOTIFY_THRESHOLD: <<parameters.notify_threshold>>
       shell: '/usr/bin/env python'
       command: <<include(scripts/notify.py)>>
   - slack/notify:
