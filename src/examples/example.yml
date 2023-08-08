@@ -1,13 +1,14 @@
 description: >
-  Sample example description.
-# Provide a use-case based example for using this orb.
-# Everything in the `usage` section will be displayed in the orb registry.
-# Comments are not retained.
+  Create a job to notify slack when a flaky test is detected.
+  Refer to https://github.com/CircleCI-Public/slack-orb/wiki/Setup for setting up slack.
 usage:
   version: 2.1
   orbs:
-    <orb-name>: <namespace>/<orb-name>@1.2.3
+    flaky-tests-notify-slack: lumen5/flaky-tests-notify-slack@1.0.2
   workflows:
     use-my-orb:
       jobs:
-        - <orb-name>/<job-name>
+        - flaky-tests-notify-slack/notify:
+            channel: C02ELGNBH
+            circle_token: CIRCLE_TOKEN_FOR_FLAKY_NOTIFY
+            notify_threshold: 3
